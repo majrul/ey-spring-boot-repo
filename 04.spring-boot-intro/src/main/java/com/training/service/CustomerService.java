@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.training.entity.Address;
@@ -42,6 +43,7 @@ public class CustomerService {
 		}
 	}
 	
+	@Cacheable("customers.cache") //region
 	public List<Customer> getAll() {
 		return customerRepository.findAll();
 	}
