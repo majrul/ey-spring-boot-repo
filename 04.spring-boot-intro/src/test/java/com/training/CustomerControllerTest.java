@@ -21,7 +21,7 @@ import com.training.entity.Address;
 import com.training.entity.Customer;
 
 @SpringBootTest
-class ApplicationTests {
+class CustomerControllerTest {
 
 	@Test
 	void register() {

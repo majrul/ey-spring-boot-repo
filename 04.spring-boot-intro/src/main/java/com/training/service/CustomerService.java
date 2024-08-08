@@ -1,5 +1,6 @@
 package com.training.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,18 @@ public class CustomerService {
 			//send a welcome email to the customer's email address
 			//emailService.sendWelcomeMail(customer.getEmail());
 		}
+	}
+	
+	public List<Customer> getAll() {
+		return customerRepository.findAll();
+	}
+	
+	public Customer get(int id) {
+		Optional<Customer> c = customerRepository.findById(id);
+		if(c.isPresent())
+			return c.get();
+		else
+			throw new CustomerServiceException("No customer with id " + id);				
 	}
 	
 }
