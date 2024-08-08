@@ -1,5 +1,7 @@
 package com.training.entity;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -12,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tbl_address")
-public class Address {
+public class Address implements Serializable {
 
 	@Id //PK
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

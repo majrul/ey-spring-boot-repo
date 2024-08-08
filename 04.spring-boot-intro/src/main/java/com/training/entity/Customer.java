@@ -1,5 +1,6 @@
 package com.training.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
@@ -13,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tbl_customer")
-public class Customer {
+public class Customer implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
