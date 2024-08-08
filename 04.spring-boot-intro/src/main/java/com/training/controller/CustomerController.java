@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.training.dto.CustomerDetails;
 import com.training.dto.RegisterStatus;
+import com.training.dto.Status;
 import com.training.entity.Customer;
 import com.training.exception.CustomerServiceException;
 import com.training.service.CustomerService;
@@ -39,7 +44,7 @@ public class CustomerController {
 		return customerService.get(id);
 	}
 	
-	@PostMapping("/customer/register")
+	/*@PostMapping("/customer/register")
 	public RegisterStatus register(@RequestBody Customer customer) {
 		//System.out.println(customer.getAddress());
 		//System.out.println(customer.getAddress().getCustomer());
@@ -56,6 +61,31 @@ public class CustomerController {
 			status.setStatus(false);
 			status.setStatusMessage(e.getMessage());
 			return status;
+		}
+	}*/
+	
+	@PostMapping("/customer/register")
+	public ResponseEntity<Status> register(@RequestBody Customer customer) {
+		//System.out.println(customer.getAddress());
+		//System.out.println(customer.getAddress().getCustomer());
+		try {
+			int id = customerService.register(customer);
+			RegisterStatus status = new RegisterStatus();
+			status.setStatus(true);
+			status.setStatusMessage("Customer registered!");
+			status.setRegisteredCustomerId(id);
+			
+			return new ResponseEntity<Status>(status, HttpStatus.OK);
+		}
+		catch(CustomerServiceException e) {
+			Status status = new Status();
+			status.setStatus(false);
+			status.setStatusMessage(e.getMessage());
+			
+			//HttpHeaders headers = new HttpHeaders();
+			//headers.add("custom-header", "123");
+			
+			return new ResponseEntity<Status>(status, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
