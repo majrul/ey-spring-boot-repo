@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,9 @@ public class CustomerService {
 		this.addressRepository = addressRepository;
 	}*/
 	
-	public int register(Customer customer) {
+	@CachePut(value = "customer.cache", key = "#customer.id")
+	@CacheEvict("customers.cache")
+	public Customer register(Customer customer) {
 		//first check if customer has already registered
 		Optional<Customer> optionalCustomer = customerRepository.findByEmail(customer.getEmail());
 		if(optionalCustomer.isPresent())
@@ -37,7 +41,7 @@ public class CustomerService {
 			Address address = customer.getAddress();
 			address.setCustomer(customer);
 			customerRepository.save(customer);
-			return customer.getId();
+			return customer;
 			//send a welcome email to the customer's email address
 			//emailService.sendWelcomeMail(customer.getEmail());
 		}
@@ -48,6 +52,7 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 	
+	@Cacheable(value = "customer.cache", key = "#id")
 	public Customer get(int id) {
 		Optional<Customer> c = customerRepository.findById(id);
 		if(c.isPresent())

@@ -69,11 +69,11 @@ public class CustomerController {
 		//System.out.println(customer.getAddress());
 		//System.out.println(customer.getAddress().getCustomer());
 		try {
-			int id = customerService.register(customer);
+			Customer c = customerService.register(customer);
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(true);
 			status.setStatusMessage("Customer registered!");
-			status.setRegisteredCustomerId(id);
+			status.setRegisteredCustomerId(c.getId());
 			
 			return new ResponseEntity<Status>(status, HttpStatus.OK);
 		}
@@ -114,12 +114,12 @@ public class CustomerController {
 				//hoping no error will occur hence keeping it block
 			}
 			
-			int id = customerService.register(customer);
+			Customer c = customerService.register(customer);
 			
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(true);
 			status.setStatusMessage("Customer registered!");
-			status.setRegisteredCustomerId(id);
+			status.setRegisteredCustomerId(c.getId());
 			return status;
 		}
 		catch(CustomerServiceException e) {
@@ -153,12 +153,12 @@ public class CustomerController {
 				//hoping no error will occur hence keeping it block
 			}
 			
-			int id = customerService.register(customer);
+			Customer c = customerService.register(customer);
 			
 			RegisterStatus status = new RegisterStatus();
 			status.setStatus(true);
 			status.setStatusMessage("Customer registered!");
-			status.setRegisteredCustomerId(id);
+			status.setRegisteredCustomerId(c.getId());
 			return status;
 		}
 		catch(CustomerServiceException | JsonProcessingException e) {

@@ -9,7 +9,7 @@
 	<cache alias="customers.cache">
 		<value-type>java.util.List</value-type>
 		<expiry>
-			<ttl unit="seconds">300</ttl>
+			<ttl unit="seconds">10</ttl>
 		</expiry>
 
 		<resources>
@@ -18,4 +18,28 @@
 		</resources>
 	</cache>
 
+	<cache alias="customer.cache">
+		<key-type>java.lang.Integer</key-type>
+		<value-type>com.training.entity.Customer</value-type>
+		<expiry>
+			<ttl unit="seconds">300</ttl>
+		</expiry>
+		
+		<listeners>
+			<listener>
+				<class>com.training.service.cache.CacheEventObserver</class>
+				<event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+				<event-ordering-mode>UNORDERED</event-ordering-mode>
+				<events-to-fire-on>CREATED</events-to-fire-on>
+				<events-to-fire-on>UPDATED</events-to-fire-on>
+				<events-to-fire-on>EXPIRED</events-to-fire-on>
+			</listener>	
+		</listeners>
+
+		<resources>
+			<heap unit="entries">100</heap>
+			<offheap unit="MB">10</offheap>
+		</resources>
+	</cache>
+	
 </config>
