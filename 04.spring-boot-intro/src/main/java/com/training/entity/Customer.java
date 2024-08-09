@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -93,6 +94,13 @@ public class Customer implements Serializable {
 		return Objects.equals(email, other.email) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(password, other.password);
 	}
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", profilePic="
+				+ profilePic + ", address=" + address + "]";
+	}
+	
 	
 	
 }
