@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: 05.spring-boot-intro
+  
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/training
+    username: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
