@@ -2,6 +2,7 @@ package com.training.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class ProductController {
 	private AddressInfo addressInfo;
 	
 	@GetMapping("/product/{id}")
-	public Product getProduct(@RequestParam int id) {
+	public Product getProduct(@PathVariable int id) {
 		Product product = productService.getProduct(id);
 		product.setServiceAddress(addressInfo.getServiceAddress());
 		return product;
