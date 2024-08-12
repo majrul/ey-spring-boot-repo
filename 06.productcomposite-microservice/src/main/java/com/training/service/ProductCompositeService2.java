@@ -12,19 +12,25 @@ import com.training.entity.Product;
 import com.training.entity.ProductAggregate;
 import com.training.entity.Rating;
 
+//using RestTemplate to call other Apis
 @Service
-public class ProductCompositeService {
+public class ProductCompositeService2 {
 
 	@Autowired
-	private ProductApiService productApiService;
-
-	@Autowired
-	private ProductRatingApiService ratingApiService;
+	private RestTemplate restTemplate;
+	
+	@Value("${product-service.url}")
+	private String productServiceUrl;
+	
+	@Value("${rating-service.url}")
+	private String ratingServiceUrl;
 	
 	public ProductAggregate getProduct(int productId) {
-		Product product = productApiService.getProduct(productId);
+		String productUrl = productServiceUrl + "/product/{id}";
+		Product product = restTemplate.getForObject(productUrl, Product.class, productId);
 		
-		List<Rating> ratings = ratingApiService.getRatings(productId);
+		String ratingUrl = ratingServiceUrl + "/rating/{id}";
+		List<Rating> ratings = restTemplate.getForObject(ratingUrl, List.class, productId);
 		
 		ProductAggregate productAggregate = new ProductAggregate();
 		BeanUtils.copyProperties(product, productAggregate);
