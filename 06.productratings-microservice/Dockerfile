@@ -1,4 +1,4 @@
 FROM openjdk:17-alpine
 #RUN apt update && install openjdk-17-jdk -y
-COPY target/06.product-microservice-0.0.1-SNAPSHOT.jar app.jar
+COPY 06.productratings-microservice/target/06.productratings-microservice-0.0.1-SNAPSHOT.jar app.jar
 CMD java -jar app.jar

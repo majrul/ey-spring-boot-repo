@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.training.entity.Product;
 
-@FeignClient(name = "product-microservice", fallbackFactory = ProductApiServiceFallbackFactory.class)
+@FeignClient(name = "product-microservice")
 public interface ProductApiService {
 
 	@GetMapping("/product/{productId}")

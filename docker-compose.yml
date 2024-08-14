@@ -1,0 +1,71 @@
+services:
+  eureka:
+    image: eureka-img
+    container_name: eureka-service
+    build:
+      context: .
+      dockerfile: 06.discovery-and-registry-service/Dockerfile
+    restart: always
+    ports:
+      - 8761:8761
+  mysqldb1:
+    image: mysql:8.0.39
+    container_name: mysql-service1
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd
+    ports:
+      - 3307:3306
+    restart: always
+  mysqldb2:
+    image: mysql:8.0.39
+    container_name: mysql-service2
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd
+    ports:
+      - 3308:3306
+    restart: always
+  product-microservice:
+    image: product-microservice-img
+    container_name: product-microservice
+    build:
+      context: .
+      dockerfile: 06.product-microservice/Dockerfile
+    restart: always
+    depends_on:
+      - mysqldb1
+      - eureka
+    environment:
+      spring.profiles.active: docker
+      SPRING_APPLICATION_JSON: '{ "spring.datasource.url":
+        "jdbc:mysql://mysql-service1:3306/training?createDatabaseIfNotExist=true",
+        "spring.datasource.username": "root", "spring.datasource.password":
+        "passw0rd" }'
+  productratings-microservice:
+    image: productratings-microservice-img
+    container_name: productratings-microservice
+    build:
+      context: .
+      dockerfile: 06.productratings-microservice/Dockerfile
+    restart: always
+    depends_on:
+      - mysqldb2
+      - eureka
+    environment:
+      spring.profiles.active: docker
+      SPRING_APPLICATION_JSON: '{ "spring.datasource.url":
+        "jdbc:mysql://mysql-service2:3306/training?createDatabaseIfNotExist=true",
+        "spring.datasource.username": "root", "spring.datasource.password":
+        "passw0rd" }'
+  productcomposite-microservice:
+    image: productcomposite-microservice-img
+    container_name: productcomposite-microservice
+    build:
+      context: .
+      dockerfile: 06.productcomposite-microservice/Dockerfile
+    restart: always
+    depends_on:
+      - eureka
+      - product-microservice
+      - productratings-microservice
+    environment:
+      spring.profiles.active: docker
