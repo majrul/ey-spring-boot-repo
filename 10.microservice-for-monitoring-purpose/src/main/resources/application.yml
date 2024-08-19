@@ -1,0 +1,31 @@
+spring.application.name: microservice-for-monitoring-purpose
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+
+  tracing:
+    sampling:
+      probability: 1.0
+      
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+        
+
+logging:
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]){yellow} %clr(:){red} %clr(%m){faint}%n"
+    
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
