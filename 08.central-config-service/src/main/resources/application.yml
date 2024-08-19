@@ -20,12 +20,10 @@ spring:
           host: localhost
           port: 8200
           kv-version: 2
-          #token: hvs.s0M2Tg2xUXN2L7JbGYXErHef
 
     vault:
       host: localhost
       port: 8200
-      #token: hvs.s0M2Tg2xUXN2L7JbGYXErHef
       kv:
         enabled: true
         backend: secret/data
