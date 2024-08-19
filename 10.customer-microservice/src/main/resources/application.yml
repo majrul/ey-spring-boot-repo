@@ -1,0 +1,16 @@
+spring.application.name: customer-microservice
+
+spring.data.mongodb.uri: mongodb://root:root@localhost:27017/?authSource=admin&authMechanism=SCRAM-SHA-1
+spring.data.mongodb.database: training-db
+
+server.port: 8003
+
+spring.cloud.stream.defaultBinder: kafka
+spring.kafka.bootstrap-servers: localhost:9092
+spring.cloud.stream.kafka.binder.replication-factor: 1
+
+
+spring.cloud.stream:
+  bindings:
+    order-out-0:
+      destination: order-topic
