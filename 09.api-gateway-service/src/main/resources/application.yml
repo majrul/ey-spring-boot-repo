@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: api-gateway-service
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8181/realms/my-realm
+        registration:
+          my-client:
+            provider: keycloak
+            client-id: my-client
+            client-secret: IPpgf3T39q5y0CBv04qLDJD34scYJHa5
+            authorization-grant-type: authorization_code
+            scope:
+            - openid
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8181/realms/my-realm/protocol/openid-connect/certs
+
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay=
+      routes:
+        - id: customer-api
+          uri: http://localhost:8003
+          #uri: lb://customer-microservice
+          predicates:
+          - Path=/customer/**
+        - id: productcomposite-api
+          #uri: http://localhost:8000
+          uri: lb://productcomposite-microservice
+          predicates:
+          - Path=/product-info/**
+          - Header=Api-Key, ^[a-zA-Z0-9]+$
+
+server:
+  port: 9000
+
+#  ssl:
+#   key-store-type: PKCS12
+#   key-store: classpath:api-gateway.p12
+#   key-store-password: password
+#   key-alias: localhost
+          
+eureka:
+  client:
+    service-url:
+      defaultZone: http://majrul:12345678@localhost:8761/eureka
+  
